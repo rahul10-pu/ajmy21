@@ -1,0 +1,16 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "a simple crud app without using express",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Rahul Kumar (rahul10.pu@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "type": "module"
+}
