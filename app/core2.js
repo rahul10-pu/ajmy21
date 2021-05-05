@@ -1,4 +1,7 @@
-// import 'core';
+import 'core';
+import 'core';
+import 'core';
+import 'core';
 // core.isEven(123)
 
 // const val=require('core1')
