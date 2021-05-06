@@ -10,7 +10,6 @@ exports.getUser= function(req, res){
     res.end(JSON.stringify(response))
 };
 exports.addUser=function (req, res){
-    console.log(res)
     body=''
     req.on('data', function(chunk){
         body+=chunk;

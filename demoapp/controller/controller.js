@@ -12,7 +12,8 @@ module.exports=http.createServer((req, res)=> {
     if(reqUrl.pathname == '/user' && req.method=='GET'){
         service.getUser(req, res)
     } else if (reqUrl.pathname == '/user' && req.method=='POST'){
-       service.addUser
+        console.log("In post req")
+       service.addUser(req, res)
     }else{
         service.invalidRequest(req,res)
     }

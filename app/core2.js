@@ -1,5 +1,5 @@
 import mylib from 'core';
-mylib.isEven(123)
+mylib(123)
 
 // const val=require('core1')
 // // require('core1')
