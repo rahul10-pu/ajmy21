@@ -23,6 +23,18 @@ export const deleteByID=(req, res)=>{
 }
 export const updateNameByID=(req, res)=>{
     const user =  users.find((user)=> user.id===req.params.id)
-    user.name=req.body.name
+    user.Name=req.body.Name;
     res.send(user)
+}
+export const updateByID = (req,res) =>{
+    users = users.map(x =>{
+        if(x.id === req.params.id)
+        {
+            x.Name = req.body.Name;
+            x.Age = req.body.Age;
+            x.Engineer = req.body.Engineer;
+        }
+        return x;
+    })
+    res.sendStatus(201);
 }
