@@ -1,21 +1,46 @@
 import {v4 as uuid} from 'uuid';
-let users=[];
+import { getUserData, saveUserData } from '../service/user.js';
+// let users=[];
 
 export const getUsers=(req, res)=>{
     console.log("get request hit")
-    res.send(users);
+    const usersData = getUserData()
+    res.send(usersData);
 }
 //uuid - Universal unique identifier
+//POST request
 export const saveUser=(req, res)=>{
+    const existingUsers = getUserData()
     const user= req.body;
+    //1. check the minimal requirement
+    if(user.name == null || user.age==null || user.username ==null || user.password==null){
+        return res.status(402).send({
+            error:true,
+            message:"User data missing, Include name, age, username, password"
+        })
+    }
+    //2. check if the username already exist
+    const findExist = existingUsers.find(userData => userData.username === user.username)
+    // console.log("++++++++++++++")
+    // console.log(findExist)
+    if(findExist){ // if true then there will be a conflict
+        return res.status(409).send({
+            error: true,
+            message: "Username alreadly exist"
+        })
+    }
+
     const id=uuid()
-    users.push({...user, id: id});
-    // console.log(users)
+    existingUsers.push({...user, id: id});
+    saveUserData(existingUsers)
     res.send(id)
 }
 export const getUserByID=(req, res)=>{
-    const user =  users.find((user)=> user.id===req.params.id)
-    res.send(user)
+
+    const existingUsers = getUserData()
+    const findExistUserByID = existingUsers.find(userData => userData.id === req.params.id)
+    // const user =  users.find((user)=> user.id===req.params.id)
+    res.send(findExistUserByID)
 }
 export const deleteByID=(req, res)=>{
     users =  users.filter((user)=> user.id!==req.params.id)
