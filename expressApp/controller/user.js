@@ -7,6 +7,9 @@ export const getUsers=(req, res)=>{
     // console.log("get request hit")
     // const usersData = getUserData()
     // res.send(usersData);
+    console.log(req.query.id)
+    console.log(req.query.age)
+    
     User.find().then(
         (result)=>{
             res.send(result)
@@ -71,18 +74,23 @@ export const getUserByID=(req, res)=>{
     // const findExistUserByID = existingUsers.find(userData => userData.id === req.params.id)
     // // const user =  users.find((user)=> user.id===req.params.id)
     // res.send(findExistUserByID)
-    User.findById(req.params.id).then(
-        (result)=>{
-            res.send(result)
-        }
-    ).catch(
-        (err)=>{
-            res.status(500).send({
-                error:true,
-                message:err
-            })
-        }
-    )
+    if(req.params.id=="age"){
+        getUsersByAge(req, res)
+    }else{
+        User.findById(req.params.id).then(
+            (result)=>{
+                res.send(result)
+            }
+        ).catch(
+            (err)=>{
+                res.status(500).send({
+                    error:true,
+                    message:err
+                })
+            }
+        )
+    }
+   
 }
 export const deleteByID=(req, res)=>{
     // users =  users.filter((user)=> user.id!==req.params.id)
@@ -100,8 +108,40 @@ export const deleteByID=(req, res)=>{
         }
     )
 }
-export const updateNameByID=(req, res)=>{
-    const user =  users.find((user)=> user.id===req.params.id)
-    user.name=req.body.name
-    res.send(user)
+export const updateUser=(req, res)=>{
+    // const user =  users.find((user)=> user.id===req.params.id)
+    // user.name=req.body.name
+    // res.send(user)
+    User.findByIdAndUpdate(req.params.id, {
+        age: req.body.age,
+        name: req.body.name,
+        password: req.body.password
+    }).then(
+        (result)=>{
+         res.send(result)   
+        }
+    ).catch(
+        (err)=>{
+            res.status(500).send({
+                error:true,
+                message:err
+            })
+        }
+    )
+}
+export const getUsersByAge = (req, res)=>{
+    User.aggregate(
+        [{$sort:{age:1}}]
+    ).then(
+        (result)=>{
+            res.send(result)
+        }
+    ).catch(
+        (err)=>{
+            res.status(500).send({
+                error:true,
+                message:err
+            })
+        }
+    )
 }
