@@ -1,7 +1,8 @@
 import pgconfig from '../config/db.postgres.config.js'
 import Sequelize from 'sequelize'
 import tutorial from "./tutorial.model.js"
-const sequelize = new Sequelize(pgconfig.DB, pgconfig.USER, pgconfig.PASSWORD, {
+
+const sequelize = new Sequelize(pgconfig.DB, pgconfig.USERNAME, pgconfig.PASSWORD, {
      host: pgconfig.HOST,
      dialect: pgconfig.DIALECT,
      port: pgconfig.PORT,
