@@ -29,12 +29,120 @@ const isAdmin=(req, res,next)=>{
                     .then(
                         roles=>{
                             for(let i=0;i<roles.length;i++){
-                                
+                                if(roles[i]=="admin"){
+                                    console.log("User is admin")
+                                    next()
+                                    return
+                                }
                             }
+                            //user is not an admin
+                            res.status(403).send({
+                                message:"Forbidden"
+                            })
                         }
                     )
-                    .catch()
+                    .catch(
+                        (err)=>{
+                            res.status(500).send({
+                                error:true,
+                                message:"Got Error while fetching all thee users from the DB"
+                            })
+                        }
+                    )
             }
         )
-        .catch()
+        .catch(
+            (err)=>{
+                res.status(500).send({
+                    error:true,
+                    message:"Got Error while fetching all thee users from the DB"
+                })
+            }
+        )
+}
+
+const isModerator=(req, res,next)=>{
+    User.findByPk(req.userID)
+        .then(
+            user=>{
+                user.getRoles()
+                    .then(
+                        roles=>{
+                            for(let i=0;i<roles.length;i++){
+                                if(roles[i]=="moderator"){
+                                    console.log("User is moderator")
+                                    next()
+                                    return
+                                }
+                            }
+                            //user is not an admin
+                            res.status(403).send({
+                                message:"Forbidden"
+                            })
+                        }
+                    )
+                    .catch(
+                        (err)=>{
+                            res.status(500).send({
+                                error:true,
+                                message:"Got Error while fetching all thee users from the DB"
+                            })
+                        }
+                    )
+            }
+        )
+        .catch(
+            (err)=>{
+                res.status(500).send({
+                    error:true,
+                    message:"Got Error while fetching all thee users from the DB"
+                })
+            }
+        )
+}
+
+const isModeratorOrAdmin=(req, res,next)=>{
+    User.findByPk(req.userID)
+        .then(
+            user=>{
+                user.getRoles()
+                    .then(
+                        roles=>{
+                            for(let i=0;i<roles.length;i++){
+                                if(roles[i]=="moderator" || roles[i]=="admin"){
+                                    console.log("User is moderator or admin")
+                                    next()
+                                    return
+                                }
+                            }
+                            //user is not an admin
+                            res.status(403).send({
+                                message:"Forbidden"
+                            })
+                        }
+                    )
+                    .catch(
+                        (err)=>{
+                            res.status(500).send({
+                                error:true,
+                                message:"Got Error while fetching all thee users from the DB"
+                            })
+                        }
+                    )
+            }
+        )
+        .catch(
+            (err)=>{
+                res.status(500).send({
+                    error:true,
+                    message:"Got Error while fetching all thee users from the DB"
+                })
+            }
+        )
+}
+export const authJWT={
+    verifyToken:verifyToken,
+    isAdmin:isAdmin,
+    isModerator:isModerator,
+    isModeratorOrAdmin:isModeratorOrAdmin
 }

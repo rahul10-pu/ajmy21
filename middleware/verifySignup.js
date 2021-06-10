@@ -55,7 +55,7 @@ export const checkDuplicateUsernameOrEmail=(req, res, next)=>{
 }
 export const checkRolesExisted=(req, res, next)=>{
     for(let i=0;i<req.body.roles.length;i++){
-        if(ROLE.include(req.body.roles[i]==false)){
+        if(ROLE.includes(req.body.roles[i])==false){
             res.status(400).send({
                 message : "Failed! Roles does not exist "+ req.body.roles[i]
             })

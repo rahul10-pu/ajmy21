@@ -4,6 +4,7 @@ import userRoutes from './routes/user.js';
 import mongoose from 'mongoose';
 import tutorialRoutes from "./routes/tutorial.js"
 import pgdb from './model/index.js'
+import authRotes from './routes/auth.routes.js'
 const Role=pgdb.roles
 function initializeDB(){
     Role.create({
@@ -59,6 +60,7 @@ app.get("/", (req, res)=> {
 });
 app.use("/user", userRoutes)
 app.use("/tutorial",tutorialRoutes)
+app.use("/api/auth",authRotes)
 // app.listen(PORT, ()=>{
 //     console.log("Server started")
 // })
