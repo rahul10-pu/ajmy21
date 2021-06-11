@@ -19,7 +19,10 @@ export const signup=(req, res)=>{
             if(req.body.roles){
                 Role.findAll({
                     where:{
-                        [Op.or]:req.body.roles
+                        name:{
+                            [Op.or]:req.body.roles
+                        }
+                        
                     }
                 })
                 .then(roles=>{
@@ -33,7 +36,7 @@ export const signup=(req, res)=>{
                             (err)=>{
                                 res.status(500).send({
                                     error:true,
-                                    message:"Got Error while fetching all thee users from the DB"
+                                    message:"Error in setting roles"
                                 })
                             }
                         )
@@ -42,7 +45,7 @@ export const signup=(req, res)=>{
                     (err)=>{
                         res.status(500).send({
                             error:true,
-                            message:"Got Error while fetching all thee users from the DB"
+                            message:"Error in finding roles in DB"+err.message
                         })
                     }
                 )
