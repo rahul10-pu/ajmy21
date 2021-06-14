@@ -9,7 +9,7 @@ const Role=pgdb.roles
 function initializeDB(){
     Role.create({
         id:1,
-        nmae:"admin"
+        name:"admin"
     })
     Role.create({
         id:2,

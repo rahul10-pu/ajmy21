@@ -1,7 +1,8 @@
 
 import jwt from "jsonwebtoken"
-import { secret } from "../config/auth.config"
-import { User } from "../model/user"
+import { secret } from "../config/auth.config.js"
+import db from '../model/index.js'
+const User=db.users
 const verifyToken=(req, res,next)=>{
     let token=req.headers["x-access-token"]
     if(!token){
@@ -29,7 +30,7 @@ const isAdmin=(req, res,next)=>{
                     .then(
                         roles=>{
                             for(let i=0;i<roles.length;i++){
-                                if(roles[i]=="admin"){
+                                if(roles[i].name=="admin"){
                                     console.log("User is admin")
                                     next()
                                     return
@@ -45,7 +46,7 @@ const isAdmin=(req, res,next)=>{
                         (err)=>{
                             res.status(500).send({
                                 error:true,
-                                message:"Got Error while fetching all thee users from the DB"
+                                message:"No Roles found for the User"
                             })
                         }
                     )
@@ -55,7 +56,7 @@ const isAdmin=(req, res,next)=>{
             (err)=>{
                 res.status(500).send({
                     error:true,
-                    message:"Got Error while fetching all thee users from the DB"
+                    message:"Not able to find User"
                 })
             }
         )
